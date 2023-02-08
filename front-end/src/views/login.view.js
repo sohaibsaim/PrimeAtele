@@ -6,6 +6,7 @@ function LoginView() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [isLoading, setIsLoading] = useState(false);
+    const [viewPassword,setViewPassword] = useState(false);
     const navigate = useNavigate();
     const onFormSubmit = e =>{
         setIsLoading(true);
@@ -55,9 +56,9 @@ function LoginView() {
                                     <div className="form-group">
                                         <div className="input-group" id="show_hide_password">
                                             <div className="input-group" id="show_hide_password">
-                                                <input className="form-control" type="password" placeholder="Password" value={password} onChange={e => { setPassword(e.target.value) }} />
+                                                <input className="form-control" type={viewPassword?"text":"password"} placeholder="Password" value={password} onChange={e => { setPassword(e.target.value) }} />
                                                 <div className="input-group-addon">
-                                                    <a href=""><i className="fa fa-eye-slash" aria-hidden="true"></i></a>
+                                                    <a onClick={e=>setViewPassword(!viewPassword)} ><i className="fa fa-eye-slash" aria-hidden="true"></i></a>
                                                 </div>
                                             </div>
                                         </div>
@@ -69,7 +70,7 @@ function LoginView() {
                                                 <label className="form-check-label" for="exampleCheck1">Remember me</label>
                                             </div>
                                             <div>
-                                                <a href="" target="_blank">Forget Password</a>
+                                                <NavLink to={`/forgot`}>Forget Password</NavLink>
                                             </div>
                                         </div>
                                     </div>

@@ -6,6 +6,7 @@ function DashboardView() {
     const navigate = useNavigate();
     const [token, setToken] = useState("");
     const [data, setData] = useState([]);
+    const [isDownloading, setIsDownloading] = useState(false);
     const getData = async () => {
         var token = localStorage.getItem("token");
         var result = await axios({ url: "http://localhost:8000/api/admin/all-customers", method: "GET", headers: { "Authorization": token } });
@@ -24,6 +25,18 @@ function DashboardView() {
             getData();
         }
     }, []);
+    const downloadExcel = async ()=>{
+        setIsDownloading(true);
+        var token = localStorage.getItem("token");
+        var result = await axios({ url: "http://localhost:8000/api/admin/export-customers", method: "GET", headers: { "Authorization": token } });
+        setIsDownloading(false);
+        if (result.data.status == 401) return navigate("/login");
+        if (result.data.status == 200) {
+            window.location.href="http://localhost:8000/"+result.data.data;
+        } else {
+            alert(result.data.message);
+        }
+    }
     return (<>
         <nav className="navbar navbar-expand-lg navbar-light bg-white p-0">
             <div className="container-fluid">
@@ -38,7 +51,8 @@ function DashboardView() {
                                         <h2>Dashboard</h2>
                                     </div>
                                     <div className="">
-                                        <a href=""><i className="fa fa-user mr-2" aria-hidden="true"></i>Export Excel</a>
+                                        {isDownloading&&<a className="disabled"><i className="fa fa-user mr-2" aria-hidden="true"></i>Exporting Excel ...</a>}
+                                        {!isDownloading&&<a style={{cursor:"pointer"}} onClick={downloadExcel}><i className="fa fa-user mr-2" aria-hidden="true"></i>Export Excel</a>}
                                     </div>
                                 </div>
                             </div>
@@ -89,7 +103,7 @@ function DashboardView() {
                                             <td> {e.email} </td>
                                             <td> {e.todaysPickup}</td>
                                             <td>{e.meals} meals grabbed</td>
-                                            <td><button className="btn">View Profile</button>  </td>
+                                            <td><button onClick={e=>{navigate(`/edit-customer/${e.id}`)}} className="btn">View Profile</button>  </td>
                                         </tr>
                                     })
                                 }

@@ -6,6 +6,8 @@ import DashboardLayout from '../layout/dashboard.layout';
 import AddCustomer from '../../views/addCustomer.view';
 import CreateView from '../../views/create.view';
 import Logout from '../logout';
+import ForgetView from '../../views/forgot.view';
+import ProfileView from '../../views/profile.view';
 const router = createBrowserRouter([
   {
     path:'/',
@@ -22,6 +24,11 @@ const router = createBrowserRouter([
       {
           path: "/add-customer",
           element: <AddCustomer />,        
+      },
+      ,
+      {
+          path: "/edit-customer/:id",
+          element: <ProfileView />,        
       }
     ],
     errorElement: <><h4>404</h4></>,
@@ -29,6 +36,11 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <LoginView />,
+    errorElement: <><h4>404</h4></>,
+  },
+  {
+    path: "/forgot",
+    element: <ForgetView />,
     errorElement: <><h4>404</h4></>,
   },
   {

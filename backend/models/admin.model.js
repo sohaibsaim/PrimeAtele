@@ -17,4 +17,9 @@ Admin.getAllCustomers = async ()=>{
     var result = await mysqlSelect(query,[]);
     return result;
 }
+Admin.getCustomer = async (id)=>{
+    let query = "select * from customer where id =?";
+    var result = await mysqlSelect(query,[id],false);
+    return result;
+}
 module.exports = Admin;
